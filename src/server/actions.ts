@@ -4,7 +4,7 @@ import { db } from "~/server/db";
 import { posts } from "./db/schema";
 import { auth, clerkClient } from "@clerk/nextjs/server";
 
-export async function addPost(formData: FormData) {
+export async function addPost(prevState: any, formData: FormData) {
   console.log(formData);
   try {
     const { userId } = auth();
@@ -34,7 +34,9 @@ export async function addPost(formData: FormData) {
       author: user?.fullName as string,
       userId: userId as string,
     });
-  } catch (e) {
-    console.error(e);
+  } catch (e: any) {
+    return {
+      message: e.message,
+    };
   }
 }

@@ -1,6 +1,7 @@
 "use client";
 
-import React, { ChangeEvent, FormEvent, useState } from "react";
+import React, { ChangeEvent, FormEvent, useRef, useState } from "react";
+import { useFormState } from "react-dom";
 import { addPost } from "~/server/actions";
 
 interface ValueProps {
@@ -8,49 +9,54 @@ interface ValueProps {
   content: string;
 }
 
+const initialState = {
+  message: null,
+};
+
 function Form() {
   const [values, setValues] = useState<ValueProps>({
     title: "",
     content: "",
   });
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
+  const formRef = useRef<HTMLFormElement>(null);
 
-    setValues({
-      title: "",
-      content: "",
-    });
-  }
-
-  function handleChange(
-    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) {
-    setValues((prevValues) => ({
-      ...prevValues,
-      [event.target.name]: event.target.value,
-    }));
-  }
+  const [state, formAction] = useFormState(addPost, initialState);
 
   return (
     <div className="">
-      <form action={addPost}>
+      <form
+        ref={formRef}
+        action={async (FormData) => {
+          await formAction(FormData);
+          formRef.current?.reset();
+        }}
+      >
         <input
-          onChange={handleChange}
-          value={values.title}
+          className="w-full rounded-md border-2 px-4 py-2"
           type="text"
           name="title"
           placeholder="title"
         />
         <textarea
-          onChange={handleChange}
-          value={values.content}
+          className="w-full rounded-md border-2 px-4 py-2"
           name="content"
           placeholder="content"
         />
-        <button className="text-white" type="submit">
-          submit
-        </button>
+        <div className="item-center flex justify-between">
+          <button
+            className="flex items-center justify-center gap-2 rounded-md px-4 py-2 text-white transition hover:bg-slate-400"
+            type="submit"
+          >
+            submit
+          </button>
+        </div>
+
+        <div>
+          {state?.message ? (
+            <p className="text-white">{state?.message}</p>
+          ) : null}
+        </div>
       </form>
     </div>
   );

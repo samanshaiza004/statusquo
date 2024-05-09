@@ -6,12 +6,24 @@ async function Posts() {
   const posts = await getAllPosts();
 
   return (
-    <div className="text-white">
+    <div className="grid grid-cols-1 gap-3 lg:gap-5">
       {posts.map((post) => (
-        <div>
-          <h1>{post.title}</h1>
-          <h3>{post.author}</h3>
-          <p>{post.content}</p>
+        <div
+          key={post.id}
+          className="max-w-md rounded-lg bg-white p-8 shadow-md"
+        >
+          <h1 className="text-xl font-bold text-gray-800">{post.title}</h1>
+          <div className="flex">
+            <h3 className="text-lg font-semibold text-gray-800">
+              {post.author}
+            </h3>
+            <p className="px-4 text-sm text-gray-500">
+              {post.createdAt.toLocaleString()}
+            </p>
+          </div>
+          <div className="mb-4">
+            <p className="text-gray-800">{post.content}</p>
+          </div>
         </div>
       ))}
     </div>
@@ -20,9 +32,11 @@ async function Posts() {
 
 export default function HomePage() {
   return (
-    <main className="">
+    <main className="overflow-y-scroll p-4">
       <Form />
-      <Posts />
+      <div className="">
+        <Posts />
+      </div>
     </main>
   );
 }
