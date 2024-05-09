@@ -26,6 +26,7 @@ export const posts = createTable(
     content: varchar("content", { length: 1024 }).notNull(),
     author: varchar("author", { length: 256 }).notNull(),
     userId: varchar("userId", { length: 256 }).notNull(),
+    image_url: varchar("image_url", { length: 256 }),
     createdAt: timestamp("created_at", { withTimezone: true })
       .default(sql`CURRENT_TIMESTAMP`)
       .notNull(),
