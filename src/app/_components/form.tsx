@@ -1,7 +1,6 @@
 "use client";
 
 import { useAuth } from "@clerk/nextjs";
-import { auth } from "@clerk/nextjs/server";
 import React, { ChangeEvent, FormEvent, useState } from "react";
 import { db } from "~/server/db";
 import { posts } from "~/server/db/schema";
