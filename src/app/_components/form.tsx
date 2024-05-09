@@ -1,9 +1,7 @@
 "use client";
 
-import { useAuth } from "@clerk/nextjs";
 import React, { ChangeEvent, FormEvent, useState } from "react";
-import { db } from "~/server/db";
-import { posts } from "~/server/db/schema";
+import { addPost } from "~/server/actions";
 
 interface ValueProps {
   title: string;
@@ -16,24 +14,12 @@ function Form() {
     content: "",
   });
 
-  const { userId } = useAuth();
-
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    console.log(values);
-    console.log(userId);
-    insertPost();
+
     setValues({
       title: "",
       content: "",
-    });
-  }
-
-  async function insertPost() {
-    await db.insert(posts).values({
-      title: values.title,
-      content: values.content,
-      userId: userId as string,
     });
   }
 
@@ -48,7 +34,7 @@ function Form() {
 
   return (
     <div className="">
-      <form onSubmit={handleSubmit}>
+      <form action={addPost}>
         <input
           onChange={handleChange}
           value={values.title}
