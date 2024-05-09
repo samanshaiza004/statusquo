@@ -6,7 +6,7 @@ async function Posts() {
   const posts = await getAllPosts();
 
   return (
-    <div className="grid grid-cols-1 gap-3 lg:gap-5">
+    <div className="grid w-full grid-cols-1 gap-3 lg:gap-5">
       {posts.map((post) => (
         <div
           key={post.id}
