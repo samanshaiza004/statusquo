@@ -1,6 +1,7 @@
-import Link from "next/link";
 import Form from "./_components/form";
 import { getAllPosts } from "~/server/queries";
+
+export const dynamic = "force-dynamic";
 
 async function HomePosts() {
   const posts = await getAllPosts();

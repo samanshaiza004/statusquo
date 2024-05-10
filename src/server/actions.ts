@@ -28,12 +28,25 @@ export async function addPost(prevState: any, formData: FormData) {
       throw new Error("Content is required");
     }
 
-    await db.insert(posts).values({
-      title,
-      content,
-      author: user?.fullName as string,
-      userId: userId as string,
-    });
+    const image_url = formData.get("imageurl") as string;
+    console.log(image_url);
+
+    if (!image_url) {
+      await db.insert(posts).values({
+        title,
+        content,
+        author: user?.fullName as string,
+        userId: userId as string,
+      });
+    } else {
+      await db.insert(posts).values({
+        title,
+        content,
+        image_url,
+        author: user?.fullName as string,
+        userId: userId as string,
+      });
+    }
   } catch (e: any) {
     return {
       message: e.message,

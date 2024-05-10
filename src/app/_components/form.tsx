@@ -1,8 +1,9 @@
 "use client";
 
-import React, { ChangeEvent, FormEvent, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { useFormState } from "react-dom";
 import { addPost } from "~/server/actions";
+import { UploadDropzone } from "./uploadthing";
 
 const initialState = {
   message: null,
@@ -11,6 +12,7 @@ const initialState = {
 function Form() {
   const formRef = useRef<HTMLFormElement>(null);
 
+  const [imageUrl, setImageUrl] = useState<string | undefined>(undefined);
   const [state, formAction] = useFormState(addPost, initialState);
 
   return (
@@ -19,6 +21,7 @@ function Form() {
         ref={formRef}
         action={async (FormData) => {
           await formAction(FormData);
+          setImageUrl(undefined);
           formRef.current?.reset();
         }}
       >
@@ -41,7 +44,35 @@ function Form() {
             submit
           </button>
         </div>
+        {imageUrl ? (
+          <img src={imageUrl} />
+        ) : (
+          <UploadDropzone
+            endpoint="imageUploader"
+            onClientUploadComplete={(res) => {
+              // Do something with the response
+              setImageUrl(res[0]?.url);
 
+              console.log("Files: ", imageUrl);
+            }}
+            onUploadError={(error: Error) => {
+              // Do something with the error.
+              alert(`ERROR! ${error.message}`);
+            }}
+          />
+        )}
+
+        <p
+          className="hidden"
+          id="imageurl"
+          content={imageUrl ? imageUrl : undefined}
+        ></p>
+        <input
+          className="hidden"
+          type="text"
+          name="imageurl"
+          value={imageUrl ? imageUrl : undefined}
+        />
         <div>
           {state?.message ? (
             <p className="text-white">{state?.message}</p>
