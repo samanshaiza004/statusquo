@@ -9,7 +9,7 @@ const initialState = {
   message: null,
 };
 
-function Form() {
+function PostForm() {
   const formRef = useRef<HTMLFormElement>(null);
 
   const [imageUrl, setImageUrl] = useState<string | undefined>(undefined);
@@ -36,31 +36,6 @@ function Form() {
           name="content"
           placeholder="content"
         />
-        <div className="item-center flex justify-between">
-          <button
-            className="flex items-center justify-center gap-2 rounded-md border px-4 py-2 text-white transition hover:bg-slate-400"
-            type="submit"
-          >
-            submit
-          </button>
-        </div>
-        {imageUrl ? (
-          <img src={imageUrl} />
-        ) : (
-          <UploadDropzone
-            endpoint="imageUploader"
-            onClientUploadComplete={(res) => {
-              // Do something with the response
-              setImageUrl(res[0]?.url);
-
-              console.log("Files: ", imageUrl);
-            }}
-            onUploadError={(error: Error) => {
-              // Do something with the error.
-              alert(`ERROR! ${error.message}`);
-            }}
-          />
-        )}
 
         <p
           className="hidden"
@@ -73,6 +48,31 @@ function Form() {
           name="imageurl"
           value={imageUrl ? imageUrl : undefined}
         />
+        <div className="flex items-center justify-center">
+          {imageUrl ? (
+            <img className="w-1/2 p-3" src={imageUrl} />
+          ) : (
+            <UploadDropzone
+              endpoint="imageUploader"
+              onClientUploadComplete={(res) => {
+                // Do something with the response
+                setImageUrl(res[0]?.url);
+
+                console.log("Files: ", imageUrl);
+              }}
+              onUploadError={(error: Error) => {
+                // Do something with the error.
+                alert(`ERROR! ${error.message}`);
+              }}
+            />
+          )}
+          <button
+            className="flex items-center justify-center gap-2 rounded-md border px-4 py-2 text-white transition hover:bg-slate-400"
+            type="submit"
+          >
+            submit
+          </button>
+        </div>
         <div>
           {state?.message ? (
             <p className="text-white">{state?.message}</p>
@@ -83,4 +83,4 @@ function Form() {
   );
 }
 
-export default Form;
+export default PostForm;
