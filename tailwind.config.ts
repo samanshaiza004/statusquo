@@ -10,5 +10,5 @@ export default withUt({
       },
     },
   },
-  plugins: [],
+  plugins: [require("daisyui")],
 }) satisfies Config;
