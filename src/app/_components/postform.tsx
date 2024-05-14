@@ -4,6 +4,7 @@ import React, { useRef, useState } from "react";
 import { useFormState } from "react-dom";
 import { addPost } from "~/server/actions";
 import { UploadDropzone } from "./uploadthing";
+import { useRouter } from "next/navigation";
 
 const initialState = {
   message: null,
@@ -11,6 +12,8 @@ const initialState = {
 
 function PostForm() {
   const formRef = useRef<HTMLFormElement>(null);
+
+  const router = useRouter();
 
   const [imageUrl, setImageUrl] = useState<string | undefined>(undefined);
   const [state, formAction] = useFormState(addPost, initialState);
@@ -66,7 +69,11 @@ function PostForm() {
               }}
             />
           )}
-          <button className="btn mx-3 rounded-none" type="submit">
+          <button
+            onClick={router.refresh}
+            className="btn mx-3 rounded-none"
+            type="submit"
+          >
             submit
           </button>
         </div>

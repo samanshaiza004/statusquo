@@ -1,15 +1,16 @@
 import React from "react";
 import { Heart, MessageCircle } from "react-feather";
 import { getAllPosts } from "~/server/queries";
+import LikeButton from "./likebutton";
 
 async function HomePosts() {
   const posts = await getAllPosts();
 
   return (
-    <div className="card w-full rounded-none bg-white shadow-xl sm:max-w-4xl xl:max-w-full">
+    <div className="card w-full rounded-none bg-white shadow-xl md:max-w-4xl xl:max-w-full">
       {posts.map((post) => (
         <div key={post.id} className="card-body flex hover:bg-gray-100">
-          <div className="">
+          <div>
             <h1 className="card-title text-2xl text-gray-800">{post.title}</h1>
             <div className="flex items-center">
               <h3 className="text-lg font-semibold text-gray-500">
@@ -19,25 +20,22 @@ async function HomePosts() {
                 {post.createdAt.toLocaleString()}
               </p>
             </div>
-            <div className="mb-4 flex">
+            <div className="mb-4">
               <p className="text-gray-800">{post.content}</p>
             </div>
           </div>
 
           <div className="ml-auto">
-            {post.image_url ? (
-              <img className="w-1/2 rounded-md" src={post.image_url} />
-            ) : null}
+            {post.image_url && (
+              <img className="w-1/2 rounded-md" src={post.image_url} alt="" />
+            )}
           </div>
-          <div className="absolute left-[90%] flex gap-2 xl:left-[85%]">
-            <div className="flex transition hover:cursor-pointer hover:text-sky-300">
-              <span className="font-semibold">2</span>
+          <div className="xl:right-18 absolute flex gap-3 sm:right-4 md:right-8">
+            <div className="flex items-center transition hover:cursor-pointer hover:text-sky-300">
+              <span className="mr-1 font-semibold">2</span>
               <MessageCircle />
             </div>
-            <div className="flex transition hover:cursor-pointer hover:text-rose-300">
-              <span className="font-semibold">{post.likes}</span>
-              <Heart />
-            </div>
+            <LikeButton curPost={post} />
           </div>
         </div>
       ))}
