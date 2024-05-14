@@ -3,6 +3,7 @@
 
 import { sql } from "drizzle-orm";
 import {
+  foreignKey,
   index,
   numeric,
   pgTableCreator,
@@ -10,6 +11,7 @@ import {
   timestamp,
   varchar,
 } from "drizzle-orm/pg-core";
+import { use } from "react";
 
 /**
  * This is an example of how to use the multi-project schema feature of Drizzle ORM. Use the same
@@ -38,3 +40,13 @@ export const posts = createTable(
     titleIndex: index("title_idx").on(example.title),
   }),
 );
+
+export const comments = createTable("comment", {
+  id: serial("id").primaryKey(),
+  postId: varchar("postId", { length: 256 }).notNull(),
+  userId: varchar("userId", { length: 256 }).notNull(),
+  content: varchar("content", { length: 1024 }).notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true })
+    .default(sql`CURRENT_TIMESTAMP`)
+    .notNull(),
+});

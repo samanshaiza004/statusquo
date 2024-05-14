@@ -30,7 +30,7 @@ async function HomePosts() {
               <img className="w-1/2 rounded-md" src={post.image_url} alt="" />
             )}
           </div>
-          <div className="xl:right-18 absolute flex gap-3 sm:right-4 md:right-8">
+          <div className="xl:right-18 absolute right-8 flex gap-3 md:right-8">
             <div className="flex items-center transition hover:cursor-pointer hover:text-sky-300">
               <span className="mr-1 font-semibold">2</span>
               <MessageCircle />
