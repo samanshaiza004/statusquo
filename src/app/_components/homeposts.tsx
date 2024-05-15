@@ -1,5 +1,5 @@
 import React from "react";
-import { Heart, MessageCircle } from "react-feather";
+import { MessageCircle } from "react-feather";
 import { getAllPosts } from "~/server/queries";
 import LikeButton from "./likebutton";
 

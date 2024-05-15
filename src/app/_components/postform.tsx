@@ -25,6 +25,7 @@ function PostForm() {
         action={async (FormData) => {
           await formAction(FormData);
           setImageUrl(undefined);
+          router.refresh();
           formRef.current?.reset();
         }}
       >
