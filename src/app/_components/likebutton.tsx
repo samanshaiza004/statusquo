@@ -5,7 +5,7 @@ import { Heart } from "react-feather";
 import axios from "axios";
 import { post } from "~/types";
 
-function LikeButton({ curPost }: { curPost: post }) {
+function LikeButton({ id, likes }: { id: number; likes: number }) {
   const [isLiked, setIsLiked] = useState(false);
   const handleClick = useCallback(async () => {
     try {
@@ -20,7 +20,7 @@ function LikeButton({ curPost }: { curPost: post }) {
     } catch (e) {
       console.log(e);
     }
-  }, [curPost.id, isLiked]);
+  }, [id, isLiked]);
   return (
     <div
       onClick={handleClick}
@@ -28,7 +28,7 @@ function LikeButton({ curPost }: { curPost: post }) {
         isLiked ? "text-rose-300" : null
       } hover:cursor-pointer hover:text-rose-300`}
     >
-      <span className="mr-1 font-semibold">{curPost.likes}</span>
+      <span className="mr-1 font-semibold">{likes}</span>
       <Heart fill={`${isLiked ? "#fda4af" : "none"}`} />
     </div>
   );

@@ -27,7 +27,7 @@ export const posts = createTable(
     id: serial("id").primaryKey(),
     title: varchar("title", { length: 256 }).notNull(),
     content: varchar("content", { length: 1024 }).notNull(),
-    author: varchar("author", { length: 256 }).notNull(),
+
     userId: varchar("userId", { length: 256 }).notNull(),
     image_url: varchar("image_url", { length: 256 }),
     likes: numeric("likes", { precision: 10, scale: 0 }).default("0"),
