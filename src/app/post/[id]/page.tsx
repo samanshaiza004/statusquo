@@ -5,5 +5,9 @@ export default function PostPage({
 }: {
   params: { id: string };
 }) {
-  return <FullPagePostView id={Number(postId)} />;
+  return (
+    <div className="m-0 flex h-screen w-screen items-center justify-center">
+      <FullPagePostView id={Number(postId)} />
+    </div>
+  );
 }
