@@ -9,7 +9,7 @@ async function HomePosts() {
   const posts = await getAllPosts();
 
   return (
-    <div className="card w-full rounded-none bg-white shadow-xl md:max-w-4xl xl:max-w-full">
+    <div className=" w-full rounded-none bg-white shadow-xl md:max-w-4xl xl:max-w-full">
       {posts.map((post) => (
         <div>
           <FeedPost
@@ -19,7 +19,7 @@ async function HomePosts() {
             createdAt={post.createdAt}
             userId={post.userId}
             image_url={post.image_url}
-            likes={Number(post.likes)}
+            likes_count={Number(post.likes_count)}
           />
         </div>
       ))}

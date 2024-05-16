@@ -5,7 +5,7 @@ export type post = {
 
   userId: string;
   image_url: string | null;
-  likes: number;
+  likes_count: number;
   createdAt: Date;
   updatedAt: Date | null;
 };

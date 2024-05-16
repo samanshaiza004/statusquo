@@ -19,7 +19,7 @@ export default async function handler(
       await db
         .update(posts)
         .set({
-          likes: sql`${req.body.post.likes} - 1`,
+          likes_count: sql`${req.body.post.likes_count} - 1`,
         })
         .where(eq(req.body.post.id, 1));
       return;
@@ -27,7 +27,7 @@ export default async function handler(
     await db
       .update(posts)
       .set({
-        likes: sql`${req.body.post.likes} + 1`,
+        likes_count: sql`${req.body.post.likes_count} + 1`,
       })
       .where(eq(req.body.post.id, 1));
     res.status(200).json({

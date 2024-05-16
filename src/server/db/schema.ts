@@ -21,6 +21,14 @@ import { use } from "react";
  */
 export const createTable = pgTableCreator((name) => `statusquo_${name}`);
 
+export const users = createTable("user", {
+  id: serial("id").primaryKey(),
+  username: varchar("name", { length: 256 }).notNull(),
+  bio: varchar("bio", { length: 1024 }),
+  created_at: timestamp("created_at").notNull(),
+  updated_at: timestamp("updated_at").notNull(),
+});
+
 export const posts = createTable(
   "post",
   {
@@ -28,9 +36,13 @@ export const posts = createTable(
     title: varchar("title", { length: 256 }).notNull(),
     content: varchar("content", { length: 1024 }).notNull(),
 
-    userId: varchar("userId", { length: 256 }).notNull(),
+    userId: varchar("userId", { length: 256 })
+      .notNull()
+      .references(() => users.id),
     image_url: varchar("image_url", { length: 256 }),
-    likes: numeric("likes", { precision: 10, scale: 0 }).default("0"),
+    likes_count: numeric("likes_count", { precision: 10, scale: 0 }).default(
+      "0",
+    ),
     createdAt: timestamp("created_at", { withTimezone: true })
       .default(sql`CURRENT_TIMESTAMP`)
       .notNull(),

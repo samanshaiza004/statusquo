@@ -30,7 +30,7 @@ function PostForm() {
         }}
       >
         <input
-          className="input w-full max-w-lg rounded-none"
+          className=" w-full max-w-lg rounded-none"
           type="text"
           name="title"
           placeholder="title"
@@ -72,7 +72,7 @@ function PostForm() {
           )}
           <button
             onClick={router.refresh}
-            className="btn mx-3 rounded-none"
+            className=" mx-3 rounded-none"
             type="submit"
           >
             submit

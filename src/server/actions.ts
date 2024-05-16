@@ -3,6 +3,7 @@
 import { db } from "~/server/db";
 import { posts } from "./db/schema";
 import { auth, clerkClient } from "@clerk/nextjs/server";
+import { eq, sql } from "drizzle-orm";
 
 export async function addPost(prevState: any, formData: FormData) {
   try {
@@ -38,6 +39,46 @@ export async function addPost(prevState: any, formData: FormData) {
     }
 
     await db.insert(posts).values(postData);
+  } catch (e: any) {
+    return {
+      message: e.message,
+    };
+  }
+}
+
+export async function addLikeToPost(prevState: any, formData: FormData) {
+  try {
+    const { userId } = auth();
+    if (!userId) {
+      throw new Error("You must be signed in to like a post");
+    }
+    const postId = formData.get("id")?.toString();
+    const user = userId ? await clerkClient.users.getUser(userId) : null;
+
+    await db
+      .update(posts)
+      .set({ likes_count: sql`${posts.likes_count} + 1` })
+      .where(eq(posts.id, Number(postId)));
+  } catch (e: any) {
+    return {
+      message: e.message,
+    };
+  }
+}
+
+export async function removeLikeFromPost(prevState: any, formData: FormData) {
+  try {
+    const { userId } = auth();
+    if (!userId) {
+      throw new Error("You must be signed in to like a post");
+    }
+    const postId = formData.get("id")?.toString();
+    const user = userId ? await clerkClient.users.getUser(userId) : null;
+
+    await db
+      .update(posts)
+      .set({ likes_count: sql`${posts.likes_count} - 1` })
+      .where(eq(posts.id, Number(postId)));
   } catch (e: any) {
     return {
       message: e.message,

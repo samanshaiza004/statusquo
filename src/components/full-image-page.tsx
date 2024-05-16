@@ -34,7 +34,7 @@ const FullPagePostView = async ({ id }: { id: number }) => {
           <span className="mr-1 font-semibold">2</span>
           <MessageCircle />
         </div>
-        <LikeButton id={id} likes={Number(post.likes)} />
+        <LikeButton id={id} likes_count={Number(post.likes_count)} />
       </div>
     </div>
   );

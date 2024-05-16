@@ -1,36 +1,51 @@
 "use client";
 
-import React, { useCallback, useState } from "react";
+import React, { useRef, useState } from "react";
 import { Heart } from "react-feather";
-import axios from "axios";
-import { post } from "~/types";
 
-function LikeButton({ id, likes }: { id: number; likes: number }) {
+import { addLikeToPost, removeLikeFromPost } from "~/server/actions";
+import { useFormState } from "react-dom";
+
+const initialState = {
+  message: null,
+};
+
+function LikeButton({ id, likes_count }: { id: number; likes_count: number }) {
+  const formRef = useRef<HTMLFormElement>(null);
   const [isLiked, setIsLiked] = useState(false);
-  const handleClick = useCallback(async () => {
-    try {
-      const newIsLiked = !isLiked;
-      setIsLiked(newIsLiked);
-      /* if (newIsLiked) {
-        await axios.post("/api/likehandler.ts", {
-          postId: curPost.id,
-          isLiked: newIsLiked,
-        });
-      } */
-    } catch (e) {
-      console.log(e);
-    }
-  }, [id, isLiked]);
+  const [state, formActionAdd] = useFormState(addLikeToPost, initialState);
+  const [stateR, formActionRemove] = useFormState(
+    removeLikeFromPost,
+    initialState,
+  );
   return (
-    <div
-      onClick={handleClick}
-      className={`flex items-center transition ${
-        isLiked ? "text-rose-300" : null
-      } hover:cursor-pointer hover:text-rose-300`}
+    <form
+      ref={formRef}
+      action={async (FormData) => {
+        if (!isLiked) {
+          await formActionAdd(FormData);
+        } else {
+          await formActionRemove(FormData);
+        }
+        setIsLiked(!isLiked);
+      }}
     >
-      <span className="mr-1 font-semibold">{likes}</span>
-      <Heart fill={`${isLiked ? "#fda4af" : "none"}`} />
-    </div>
+      <button
+        type="submit"
+        className={`flex items-center transition ${
+          isLiked ? "text-rose-300" : null
+        } hover:cursor-pointer hover:text-rose-300`}
+      >
+        <span className="mr-1 font-semibold">{likes_count}</span>
+        <Heart fill={`${isLiked ? "#fda4af" : "none"}`} />
+      </button>
+      <input
+        type="hidden"
+        name="isLiked"
+        value={`${isLiked ? "true" : "false"}`}
+      />
+      <input type="hidden" name="id" value={id} />
+    </form>
   );
 }
 

@@ -11,10 +11,11 @@ async function FeedPost(props: {
   createdAt: Date;
 
   image_url: string | null;
-  likes: number;
+  likes_count: number;
   userId: string;
 }) {
-  const { id, title, content, createdAt, image_url, likes, userId } = props;
+  const { id, title, content, createdAt, image_url, likes_count, userId } =
+    props;
 
   const uploaderInfo = await clerkClient.users.getUser(userId);
   return (
@@ -39,14 +40,14 @@ async function FeedPost(props: {
             <img className="w-1/2 rounded-md" src={image_url} alt="" />
           )}
         </div>
-        <div className="xl:right-18 absolute right-8 flex gap-3 md:right-8">
-          <div className="flex items-center transition hover:cursor-pointer hover:text-sky-300">
-            <span className="mr-1 font-semibold">2</span>
-            <MessageCircle />
-          </div>
-          <LikeButton id={id} likes={likes} />
-        </div>
       </Link>
+      <div className="xl:right-18 absolute right-8 flex gap-3 md:right-8">
+        <div className="flex items-center transition hover:cursor-pointer hover:text-sky-300">
+          <span className="mr-1 font-semibold">2</span>
+          <MessageCircle />
+        </div>
+        <LikeButton id={id} likes_count={likes_count} />
+      </div>
     </div>
   );
 }
