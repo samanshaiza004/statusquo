@@ -9,7 +9,7 @@ const FullPagePostView = async ({ id }: { id: number }) => {
   const uploaderInfo = await clerkClient.users.getUser(post.userId);
 
   return (
-    <div className="flex h-screen flex-col bg-white px-6 py-6">
+    <div className="flex h-full w-8/12 flex-col bg-white px-6 py-6">
       <div>
         <h1 className="text-4xl font-bold text-gray-800">{post.title}</h1>
         <div className="flex items-center">

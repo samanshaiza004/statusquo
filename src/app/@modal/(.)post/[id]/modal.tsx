@@ -20,7 +20,15 @@ export function Modal({ children }: { children: React.ReactNode }) {
 
   return createPortal(
     <dialog ref={dialogRef} onClose={onDismiss} className="modal">
-      <div className="modal-box w-11/12 max-w-5xl bg-white">{children}</div>
+      <div className="modal-box w-11/12 max-w-5xl bg-white">
+        <form method="dialog">
+          {/* if there is a button in form, it will close the modal */}
+          <button className="btn btn-circle btn-ghost btn-sm absolute right-2 top-2">
+            X
+          </button>
+        </form>
+        {children}
+      </div>
     </dialog>,
     document.getElementById("modal-root")!,
   );
