@@ -1,11 +1,14 @@
 import { SignedOut, SignInButton, SignedIn, UserButton } from "@clerk/nextjs";
+import Link from "next/link";
 import React, { memo } from "react";
 
 const NavBar = memo(function NavBar() {
   return (
     <nav className="navbar bg-base-100">
       <div className="mx-3 flex-1">
-        <a className="text-xl">status quo</a>
+        <Link href={"/"} className="text-xl">
+          status quo
+        </Link>
       </div>
       <div className="flex-none">
         <div className="dropdown dropdown-end">

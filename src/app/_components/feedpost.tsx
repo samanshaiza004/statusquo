@@ -21,12 +21,12 @@ async function FeedPost(props: {
     <div key={id} className="card-body flex hover:bg-gray-100">
       <Link href={`/post/${id}`}>
         <div>
-          <h1 className="card-title text-2xl text-gray-800">{title}</h1>
+          <h1 className="text-2xl font-bold text-gray-800">{title}</h1>
           <div className="flex items-center">
-            <h3 className="text-lg font-semibold text-gray-500">
+            <h3 className="text-md font-semibold text-gray-500">
               {uploaderInfo.username}
             </h3>
-            <p className="px-2 text-sm text-gray-400">
+            <p className="px-2 text-xs text-gray-400">
               {createdAt.toLocaleString()}
             </p>
           </div>

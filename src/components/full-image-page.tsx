@@ -1,5 +1,7 @@
 import { clerkClient } from "@clerk/nextjs/server";
 import React from "react";
+import { MessageCircle } from "react-feather";
+import LikeButton from "~/app/_components/likebutton";
 import { getPost } from "~/server/queries";
 
 const FullPagePostView = async ({ id }: { id: number }) => {
@@ -26,6 +28,13 @@ const FullPagePostView = async ({ id }: { id: number }) => {
         {post.image_url && (
           <img className=" w-64 rounded-md" src={post.image_url} alt="" />
         )}
+      </div>
+      <div className="xl:right-18 absolute right-8 flex gap-3 md:right-8">
+        <div className="flex items-center transition hover:cursor-pointer hover:text-sky-300">
+          <span className="mr-1 font-semibold">2</span>
+          <MessageCircle />
+        </div>
+        <LikeButton id={id} likes={Number(post.likes)} />
       </div>
     </div>
   );
