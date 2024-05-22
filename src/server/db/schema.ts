@@ -5,13 +5,14 @@ import { sql } from "drizzle-orm";
 import {
   foreignKey,
   index,
+  integer,
   numeric,
   pgTableCreator,
   serial,
+  text,
   timestamp,
   varchar,
 } from "drizzle-orm/pg-core";
-import { use } from "react";
 
 /**
  * This is an example of how to use the multi-project schema feature of Drizzle ORM. Use the same
@@ -23,10 +24,20 @@ export const createTable = pgTableCreator((name) => `statusquo_${name}`);
 
 export const users = createTable("user", {
   id: serial("id").primaryKey(),
-  username: varchar("name", { length: 256 }).notNull(),
+
+  // fields from clerk
+  clerkId: varchar("clerkId", { length: 256 }).notNull().unique(),
+  email: varchar("email", { length: 256 }).notNull(),
+  name: varchar("name", { length: 256 }),
+
+  username: varchar("username", { length: 256 }).notNull(),
   bio: varchar("bio", { length: 1024 }),
-  created_at: timestamp("created_at").notNull(),
-  updated_at: timestamp("updated_at").notNull(),
+  avatar: varchar("avatar", { length: 256 }),
+
+  createdAt: timestamp("created_at", { withTimezone: true })
+    .default(sql`CURRENT_TIMESTAMP`)
+    .notNull(),
+  updatedAt: timestamp("updatedAt", { withTimezone: true }),
 });
 
 export const posts = createTable(
@@ -34,11 +45,13 @@ export const posts = createTable(
   {
     id: serial("id").primaryKey(),
     title: varchar("title", { length: 256 }).notNull(),
-    content: varchar("content", { length: 1024 }).notNull(),
-
-    userId: varchar("userId", { length: 256 })
+    content: text("content").notNull(),
+    userId: integer("userId")
       .notNull()
-      .references(() => users.id),
+      .references(() => users.id, {
+        onDelete: "restrict",
+        onUpdate: "cascade",
+      }),
     image_url: varchar("image_url", { length: 256 }),
     likes_count: numeric("likes_count", { precision: 10, scale: 0 }).default(
       "0",
@@ -53,7 +66,7 @@ export const posts = createTable(
   }),
 );
 
-export const comments = createTable("comment", {
+/* export const comments = createTable("comment", {
   id: serial("id").primaryKey(),
   postId: varchar("postId", { length: 256 }).notNull(),
   userId: varchar("userId", { length: 256 }).notNull(),
@@ -61,4 +74,4 @@ export const comments = createTable("comment", {
   createdAt: timestamp("created_at", { withTimezone: true })
     .default(sql`CURRENT_TIMESTAMP`)
     .notNull(),
-});
+}); */

@@ -1,8 +1,7 @@
 import React from "react";
-import { MessageCircle } from "react-feather";
+
 import { getAllPosts } from "~/server/queries";
-import LikeButton from "./likebutton";
-import Link from "next/link";
+
 import FeedPost from "./feedpost";
 
 async function HomePosts() {
@@ -13,11 +12,12 @@ async function HomePosts() {
       {posts.map((post) => (
         <div>
           <FeedPost
+            key={post.id}
             id={post.id}
             title={post.title}
             content={post.content}
             createdAt={post.createdAt}
-            userId={post.userId}
+            userId={post.userId as unknown as string}
             image_url={post.image_url}
             likes_count={Number(post.likes_count)}
           />

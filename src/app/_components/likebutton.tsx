@@ -10,7 +10,19 @@ const initialState = {
   message: null,
 };
 
-function LikeButton({ id, likes_count }: { id: number; likes_count: number }) {
+function LikeButton({
+  id,
+  likes_count,
+  dark,
+  /* isLiked,
+  handleClick, */
+}: {
+  id: number;
+  likes_count: number;
+  dark: boolean;
+  /* isLiked: boolean;
+  handleClick: () => void; */
+}) {
   const formRef = useRef<HTMLFormElement>(null);
   const [isLiked, setIsLiked] = useState(false);
   const [state, formActionAdd] = useFormState(addLikeToPost, initialState);
@@ -36,7 +48,7 @@ function LikeButton({ id, likes_count }: { id: number; likes_count: number }) {
           isLiked ? "text-rose-300" : null
         } hover:cursor-pointer hover:text-rose-300`}
       >
-        <span className="mr-1 font-semibold">{likes_count}</span>
+        <span className={`mr-1 font-semibold`}>{likes_count}</span>
         <Heart fill={`${isLiked ? "#fda4af" : "none"}`} />
       </button>
       <input

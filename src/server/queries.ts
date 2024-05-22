@@ -13,10 +13,6 @@ export async function getAllPosts() {
 }
 
 export async function getPost(id: number) {
-  const user = auth();
-
-  if (!user.userId) throw new Error("unauthorized");
-
   const post = await db.query.posts.findFirst({
     where: (model, { eq }) => eq(model.id, id),
   });
@@ -24,6 +20,16 @@ export async function getPost(id: number) {
   if (!post) throw new Error("post not found");
 
   return post;
+}
+
+export async function getUser(id: number) {
+  const user = await db.query.users.findFirst({
+    where: (model, { eq }) => eq(model.id, id),
+  });
+
+  if (!user) throw new Error("user not found");
+
+  return user;
 }
 
 export async function deletePost(id: number) {
@@ -36,11 +42,12 @@ export async function deletePost(id: number) {
   });
 
   if (!post) throw new Error("post not found");
-  if (post.userId !== user.userId) throw new Error("unauthorized");
+  if (Number(post.userId) !== Number(user.userId))
+    throw new Error("unauthorized");
 
   await db
     .delete(posts)
-    .where(and(eq(posts.id, id), eq(posts.userId, user.userId)));
+    .where(and(eq(posts.id, id), eq(posts.userId, Number(user.userId))));
 
   redirect("/");
 }

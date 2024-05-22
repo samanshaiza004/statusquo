@@ -19,11 +19,13 @@ export function Modal({ children }: { children: React.ReactNode }) {
   }
 
   return createPortal(
-    <dialog ref={dialogRef} onClose={onDismiss} className="">
-      <div className=" w-11/12 max-w-5xl bg-white">
+    <dialog ref={dialogRef} onClose={onDismiss} className="w-full max-w-2xl">
+      <div className="">
         <form method="dialog">
           {/* if there is a button in form, it will close the modal */}
-          <button className="absolute right-2 top-2">X</button>
+          <button className="absolute right-2 top-1">
+            <span className="text-xl">x</span>
+          </button>
         </form>
         {children}
       </div>

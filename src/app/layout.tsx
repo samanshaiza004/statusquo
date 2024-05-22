@@ -3,6 +3,7 @@ import "~/styles/globals.css";
 import { Inter } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
 import NavBar from "./_components/navbar";
+import { Toaster } from "~/components/ui/sonner";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -25,10 +26,11 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en">
-        <body className={`font-sans ${inter.variable}`}>
+        <body className={`font-sans ${inter.variable} dark`}>
           <NavBar />
           {children}
           {modal}
+          <Toaster />
           <div className="" id="modal-root" />
         </body>
       </html>
