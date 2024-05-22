@@ -1,29 +1,51 @@
-# Create T3 App
+# statusquo
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+statusquo is a social forum platform designed to facilitate the sharing of ideas and discussions among users.
 
-## What's next? How do I make an app with this?
+## Features
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+- User registration and authentication
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+- Post and comment on discussions
+- Upvote and downvote posts and comments ( to be added )
+- Search functionality ( to be added )
+- User profiles ( to be added )
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Drizzle](https://orm.drizzle.team)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+## Roadmap
 
-## Learn More
+### Version 0.01a ( current )
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
+- User registration and authentication
+- Basic community creation and joining
+- Posting and commenting on discussions
+- Upvoting and downvoting functionality
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
+### Version 0.02a
 
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
+- Search functionality
+- Upvote and downvote posts and comments
+- User profiles with customizable settings
+- Notifications for new posts and comments
 
-## How do I deploy this?
+## Getting Started
 
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+To get started with the statusquo project, follow these steps:
+
+1. Clone the repository: `git clone https://github.com/samanshaiza004/statusquo.git`
+2. Install the necessary dependencies: `npm install`
+3. Configure the database connection in the `.env` file
+4. Start the development server: `npm start`
+
+## Contributing
+
+Contributions are welcome! If you'd like to contribute to the statusquo project, please follow these guidelines:
+
+1. Fork the repository
+2. Create a new branch: `git checkout -b feature/your-feature`
+3. Make your changes and commit them: `git commit -m 'Add your feature'`
+4. Push to the branch: `git push origin feature/your-feature`
+5. Submit a pull request
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).

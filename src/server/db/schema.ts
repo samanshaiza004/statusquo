@@ -66,7 +66,7 @@ export const posts = createTable(
   }),
 );
 
-/* export const comments = createTable("comment", {
+export const comments = createTable("comment", {
   id: serial("id").primaryKey(),
   postId: varchar("postId", { length: 256 }).notNull(),
   userId: varchar("userId", { length: 256 }).notNull(),
@@ -74,4 +74,4 @@ export const posts = createTable(
   createdAt: timestamp("created_at", { withTimezone: true })
     .default(sql`CURRENT_TIMESTAMP`)
     .notNull(),
-}); */
+});
