@@ -34,6 +34,8 @@ export const users = createTable("user", {
   bio: varchar("bio", { length: 1024 }),
   avatar: varchar("avatar", { length: 256 }),
 
+  liked_posts: varchar("liked_posts", {}).default("[]"),
+
   createdAt: timestamp("created_at", { withTimezone: true })
     .default(sql`CURRENT_TIMESTAMP`)
     .notNull(),

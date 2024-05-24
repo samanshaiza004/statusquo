@@ -39,7 +39,7 @@ async function FeedPost(props: {
   const uploaderInfo = await clerkClient.users.getUser((await user).clerkId);
 
   return (
-    <Card className="rounded-none">
+    <Card className="rounded-none hover:bg-slate-900">
       <Link href={`/post/${id}`}>
         <CardHeader>
           <CardTitle className="text-2xl">{title}</CardTitle>

@@ -8,7 +8,7 @@ async function HomePosts() {
   const posts = await getAllPosts();
 
   return (
-    <div className=" w-full rounded-none bg-white shadow-xl md:max-w-4xl xl:max-w-full">
+    <div className="w-full rounded-none bg-white shadow-xl md:max-w-4xl xl:max-w-full">
       {posts.map((post) => (
         <div>
           <FeedPost
