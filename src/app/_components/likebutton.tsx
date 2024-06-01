@@ -14,17 +14,17 @@ function LikeButton({
   id,
   likes_count,
   dark,
-  /* isLiked,
-  handleClick, */
+  isLiked,
+  /* handleClick, */
 }: {
   id: number;
   likes_count: number;
   dark: boolean;
-  /* isLiked: boolean;
-  handleClick: () => void; */
+  isLiked: boolean;
+  /* handleClick: () => void; */
 }) {
   const formRef = useRef<HTMLFormElement>(null);
-  const [isLiked, setIsLiked] = useState(false);
+  // const [isLiked, setIsLiked] = useState(false);
   const [state, formActionAdd] = useFormState(addLikeToPost, initialState);
   const [stateR, formActionRemove] = useFormState(
     removeLikeFromPost,
@@ -39,7 +39,6 @@ function LikeButton({
         } else {
           await formActionRemove(FormData);
         }
-        setIsLiked(!isLiked);
       }}
     >
       <button

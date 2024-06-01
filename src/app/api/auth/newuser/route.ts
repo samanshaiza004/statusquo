@@ -6,12 +6,12 @@ import { users } from "~/server/db/schema";
 export async function GET() {
   const { userId } = auth();
   if (!userId) {
-    return new NextResponse("unauthorized", { status: 401 });
+    return new NextResponse("Unauthorized", { status: 401 });
   }
 
   const user = await currentUser();
   if (!user) {
-    return new NextResponse("user does not exist", { status: 404 });
+    return new NextResponse("User does not exist", { status: 404 });
   }
 
   let dbUser = await db.query.users.findFirst({

@@ -33,8 +33,10 @@ export const users = createTable("user", {
   username: varchar("username", { length: 256 }).notNull(),
   bio: varchar("bio", { length: 1024 }),
   avatar: varchar("avatar", { length: 256 }),
-
-  liked_posts: varchar("liked_posts", {}).default("[]"),
+  liked_posts: varchar("liked_posts", {})
+    .array()
+    .notNull()
+    .default(sql`ARRAY[]::text[]`),
 
   createdAt: timestamp("created_at", { withTimezone: true })
     .default(sql`CURRENT_TIMESTAMP`)
