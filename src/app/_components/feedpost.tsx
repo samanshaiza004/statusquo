@@ -1,4 +1,6 @@
-import React from "react";
+"use client";
+
+import React, { useEffect, useState } from "react";
 import { MessageCircle } from "react-feather";
 import LikeButton from "./likebutton";
 import Link from "next/link";
@@ -12,7 +14,6 @@ import {
   CardTitle,
 } from "~/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
-import { getUser } from "~/server/queries";
 
 interface FeedPostProps {
   id: number;
@@ -24,7 +25,7 @@ interface FeedPostProps {
   userId: string;
 }
 
-const FeedPost: React.FC<FeedPostProps> = async ({
+const FeedPost: React.FC<FeedPostProps> = ({
   id,
   title,
   content,
@@ -33,11 +34,34 @@ const FeedPost: React.FC<FeedPostProps> = async ({
   likes_count,
   userId,
 }) => {
-  const user = await getUser(Number(userId));
-  const uploaderInfo = await clerkClient.users.getUser(user.clerkId);
+  const [uploaderInfo, setUploaderInfo] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
 
-  const isLiked = user.liked_posts.includes((id as unknown as string) + "");
-  console.log(user.liked_posts.includes((id as unknown as string) + ""));
+  useEffect(() => {
+    console.log("userId", userId);
+    const fetchUploaderInfo = async () => {
+      try {
+        const response = await fetch("/api/user/${userId}");
+        const uploaderData = await response.json();
+        setUploaderInfo(uploaderData);
+      } catch (error) {
+        console.error("Error fetching uploader info:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUploaderInfo();
+  }, [userId]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!uploaderInfo) {
+    return <div>Error loading uploader information</div>;
+  }
+
   return (
     <Card className="rounded-none hover:bg-slate-900">
       <Link href={`/post/${id}`}>
@@ -80,13 +104,14 @@ const FeedPost: React.FC<FeedPostProps> = async ({
           <MessageCircle />
         </div>
         <LikeButton
-          isLiked={isLiked}
+          userId={userId}
           dark={false}
           id={id}
-          likes_count={likes_count}
+          initialLikesCount={likes_count}
         />
       </CardFooter>
     </Card>
   );
 };
+
 export default FeedPost;
