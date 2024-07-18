@@ -1,13 +1,13 @@
 "use client";
 
-import { clerkClient } from "@clerk/nextjs/server";
 import React, { useEffect, useState } from "react";
 import { MessageCircle } from "react-feather";
 import LikeButton from "~/app/_components/likebutton";
-import { getPost, getUser } from "~/server/queries";
+
 import { Card, CardContent, CardFooter, CardHeader } from "./ui/card";
 import { Avatar, AvatarImage, AvatarFallback } from "~/components/ui/avatar";
 import { useUser } from "@clerk/nextjs";
+import CommentSection from "~/app/_components/commentsection";
 
 const FullPagePostView = ({ id }: { id: number }) => {
   const [uploaderInfo, setUploaderInfo] = useState<any>(null);
@@ -80,11 +80,10 @@ const FullPagePostView = ({ id }: { id: number }) => {
           </div>
         )}
         <div>
-          <h2 className="text-2xl font-semibold">Comments</h2>
-          <div>
-            <h3>saman shaiza</h3>
-            <p className="px-2 text-sm">This is a good point</p>
-          </div>
+          <CommentSection
+            postId={id}
+            userId={post.userId as unknown as string}
+          />
         </div>
       </CardContent>
       <CardFooter className="flex gap-2">

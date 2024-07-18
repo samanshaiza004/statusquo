@@ -2,7 +2,7 @@ import { auth } from "@clerk/nextjs/server";
 import { eq, sql } from "drizzle-orm";
 import { NextResponse } from "next/server";
 import { db } from "~/server/db";
-import { posts } from "~/server/db/schema";
+import { posts, users } from "~/server/db/schema";
 
 export async function POST(request: Request) {
   try {
@@ -24,7 +24,10 @@ export async function POST(request: Request) {
       throw new Error("you have already liked this post");
     }
     await dbUser.liked_posts.push(postId);
-    console.log(dbUser.liked_posts);
+    await db
+      .update(users)
+      .set({ liked_posts: dbUser.liked_posts })
+      .where(eq(users.clerkId, userId));
     await db
       .update(posts)
       .set({ likes_count: sql`${posts.likes_count} + 1` })
@@ -57,7 +60,10 @@ export async function DELETE(request: Request) {
       throw new Error("You haven't liked this post");
     }
     await dbUser.liked_posts.splice(postIndex, 1);
-    console.log(dbUser.liked_posts);
+    await db
+      .update(users)
+      .set({ liked_posts: dbUser.liked_posts })
+      .where(eq(users.clerkId, userId));
     await db
       .update(posts)
       .set({ likes_count: sql`${posts.likes_count} - 1` })

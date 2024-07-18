@@ -72,8 +72,18 @@ export const posts = createTable(
 
 export const comments = createTable("comment", {
   id: serial("id").primaryKey(),
-  postId: varchar("postId", { length: 256 }).notNull(),
-  userId: varchar("userId", { length: 256 }).notNull(),
+  postId: varchar("postId", { length: 256 })
+    .notNull()
+    .references(() => posts.id, {
+      onDelete: "cascade",
+      onUpdate: "cascade",
+    }),
+  userId: varchar("userId", { length: 256 })
+    .notNull()
+    .references(() => users.id, {
+      onDelete: "cascade",
+      onUpdate: "cascade",
+    }),
   content: varchar("content", { length: 1024 }).notNull(),
   createdAt: timestamp("created_at", { withTimezone: true })
     .default(sql`CURRENT_TIMESTAMP`)

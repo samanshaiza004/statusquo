@@ -1,6 +1,6 @@
 import { auth } from "@clerk/nextjs/server";
 import { db } from "./db";
-import { posts } from "./db/schema";
+import { comments, posts } from "./db/schema";
 import { and, eq, sql } from "drizzle-orm";
 import { redirect } from "next/navigation";
 
@@ -50,6 +50,17 @@ export async function deletePost(id: number) {
     .where(and(eq(posts.id, id), eq(posts.userId, Number(user.userId))));
 
   redirect("/");
+}
+
+export async function getCommentCountForPost(postId: string) {
+  if (!postId) throw new Error("postId is required");
+  const commentCount = await db
+    .select({ count: sql<number>`count(*)` })
+    .from(comments)
+    .where(eq(comments.postId, postId));
+  if (commentCount[0]) return commentCount[0].count;
+
+  return 0;
 }
 
 /* export async function addLikeToPost(id: number) {
