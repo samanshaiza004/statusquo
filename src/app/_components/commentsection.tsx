@@ -1,5 +1,6 @@
 import { handleClientScriptLoad } from "next/script";
 import React, { useState, useEffect } from "react";
+import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 
 interface CommentProps {
   postId: number;
@@ -16,6 +17,7 @@ const CommentSection: React.FC<CommentProps> = ({ postId, userId }) => {
       try {
         const response = await fetch(`/api/comments?postId=${postId}`);
         const data = await response.json();
+        console.log(data);
         setComments(data.comments);
       } catch (error) {
         console.error("Error fetching comments:", error);
@@ -55,11 +57,20 @@ const CommentSection: React.FC<CommentProps> = ({ postId, userId }) => {
       {comments.length === 0 ? (
         <p>No comments yet.</p>
       ) : (
-        <div>
-          {comments.map((comment) => (
+        <div className="my-4">
+          {comments.map(({ comment, user }) => (
             <div key={comment.id} className="mb-2 border-b pb-2">
+              <div className="flex items-center">
+                <Avatar className="mr-2 h-6 w-6">
+                  <AvatarImage
+                    src={user.imageUrl}
+                    alt={user.fullName || "User Avatar"}
+                  />
+                  <AvatarFallback>SS</AvatarFallback>
+                </Avatar>
+                <span>by {user.username}</span>
+              </div>
               <p>{comment.content}</p>
-              <small>by {comment.userId}</small>
             </div>
           ))}
         </div>

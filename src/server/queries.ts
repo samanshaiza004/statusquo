@@ -59,7 +59,7 @@ export async function getCommentCountForPost(postId: string) {
     .from(comments)
     .where(eq(comments.postId, postId));
   if (commentCount[0]) return commentCount[0].count;
-
+  console.log(commentCount);
   return 0;
 }
 

@@ -37,7 +37,7 @@ const FeedPost: React.FC<FeedPostProps> = ({
 }) => {
   const [uploaderInfo, setUploaderInfo] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-
+  const [commentCount, setCommentCount] = useState(0);
   useEffect(() => {
     console.log("userId", userId);
     const fetchUploaderInfo = async () => {
@@ -53,6 +53,19 @@ const FeedPost: React.FC<FeedPostProps> = ({
     };
 
     fetchUploaderInfo();
+
+    const fetchCommentCount = async () => {
+      try {
+        const response = await fetch(`/api/comments/count?postId=${id}`);
+        const commentCount = await response.json();
+        setCommentCount(commentCount.commentCount);
+        console.log(id, "commentCount", commentCount);
+      } catch (error) {
+        console.error("Error fetching comment count:", error);
+      }
+    };
+
+    fetchCommentCount();
   }, [userId]);
 
   if (loading) {
@@ -101,7 +114,7 @@ const FeedPost: React.FC<FeedPostProps> = ({
       </Link>
       <CardFooter className="flex gap-2">
         <div className="flex items-center transition hover:cursor-pointer hover:text-sky-300">
-          <span className="mr-1 font-semibold">2</span>
+          <span className="mr-1 font-semibold">{commentCount}</span>
           <MessageCircle />
         </div>
         <LikeButton

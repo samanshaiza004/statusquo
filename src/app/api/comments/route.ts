@@ -2,7 +2,7 @@ import { auth } from "@clerk/nextjs/server";
 import { eq } from "drizzle-orm/sql";
 import { NextResponse } from "next/server";
 import { db } from "~/server/db";
-import { comments } from "~/server/db/schema";
+import { comments, users } from "~/server/db/schema";
 
 export async function POST(request: Request) {
   try {
@@ -42,10 +42,16 @@ export async function GET(request: Request) {
     if (!postId) {
       throw new Error("postId is required");
     }
+
     const postComments = await db
-      .select()
+      .select({
+        comment: comments,
+        user: users,
+      })
       .from(comments)
+      .innerJoin(users, eq(users.clerkId, comments.userId))
       .where(eq(comments.postId, postId));
+
     return NextResponse.json({ status: "success", comments: postComments });
   } catch (error: any) {
     return NextResponse.json({ status: "error", message: error.message });
