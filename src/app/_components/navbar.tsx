@@ -15,7 +15,7 @@ const NavBar = memo(function NavBar() {
           <div className="">
             <div tabIndex={0} role="button" className="">
               <div className="">
-                <span className="">8</span>
+                <span className=""></span>
               </div>
             </div>
           </div>

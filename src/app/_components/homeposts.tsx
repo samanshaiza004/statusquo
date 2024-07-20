@@ -3,11 +3,12 @@
 import React, { useEffect, useState } from "react";
 import FeedPost from "./feedpost";
 import { getAllPosts } from "~/server/queries";
+import { useAuth } from "@clerk/nextjs";
 
 const HomePosts: React.FC = () => {
   const [posts, setPosts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-
+  const user = useAuth();
   useEffect(() => {
     const fetchPosts = async () => {
       try {
@@ -45,6 +46,7 @@ const HomePosts: React.FC = () => {
             userId={post.userId as unknown as string}
             image_url={post.image_url}
             likes_count={Number(post.likes_count)}
+            currentUser={user}
           />
         </div>
       ))}

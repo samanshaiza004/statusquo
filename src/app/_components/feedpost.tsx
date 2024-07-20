@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { MessageCircle } from "react-feather";
 import LikeButton from "./likebutton";
 import Link from "next/link";
-import { clerkClient } from "@clerk/nextjs/server";
+import { clerkClient, currentUser } from "@clerk/nextjs/server";
 import {
   Card,
   CardContent,
@@ -15,6 +15,7 @@ import {
 } from "~/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 import CommentSection from "./commentsection";
+import DropdownMenu from "./dropdownmenu";
 
 interface FeedPostProps {
   id: number;
@@ -24,6 +25,7 @@ interface FeedPostProps {
   image_url: string | null;
   likes_count: number;
   userId: string;
+  currentUser: any;
 }
 
 const FeedPost: React.FC<FeedPostProps> = ({
@@ -34,6 +36,7 @@ const FeedPost: React.FC<FeedPostProps> = ({
   image_url,
   likes_count,
   userId,
+  currentUser,
 }) => {
   const [uploaderInfo, setUploaderInfo] = useState<any>(null);
   const [loading, setLoading] = useState(true);
@@ -42,7 +45,7 @@ const FeedPost: React.FC<FeedPostProps> = ({
     console.log("userId", userId);
     const fetchUploaderInfo = async () => {
       try {
-        const response = await fetch("/api/user/${userId}");
+        const response = await fetch(`/api/user/${userId}`);
         const uploaderData = await response.json();
         setUploaderInfo(uploaderData);
       } catch (error) {
@@ -67,6 +70,17 @@ const FeedPost: React.FC<FeedPostProps> = ({
 
     fetchCommentCount();
   }, [userId]);
+
+  const handleDeletePost = async () => {
+    try {
+      await fetch(`/api/post/${id}`, {
+        method: "DELETE",
+      });
+      alert("Post deleted successfully");
+    } catch (error) {
+      console.error("Error deleting post:", error);
+    }
+  };
 
   if (loading) {
     return <div>Loading...</div>;
@@ -122,6 +136,11 @@ const FeedPost: React.FC<FeedPostProps> = ({
           dark={false}
           id={id}
           initialLikesCount={likes_count}
+        />
+        <DropdownMenu
+          postId={id}
+          isOwner={currentUser.userId === uploaderInfo.clerkId}
+          onDelete={handleDeletePost}
         />
       </CardFooter>
     </Card>

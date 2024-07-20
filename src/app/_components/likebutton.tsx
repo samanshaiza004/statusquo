@@ -13,7 +13,7 @@ interface LikeButtonProps {
 const LikeButton: React.FC<LikeButtonProps> = ({
   id,
   initialLikesCount,
-  dark,
+
   userId,
 }) => {
   const [isLiked, setIsLiked] = useState(false);
