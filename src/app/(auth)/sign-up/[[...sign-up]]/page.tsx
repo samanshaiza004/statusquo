@@ -1,9 +1,2 @@
-import { SignUp } from "@clerk/nextjs";
-
-export default function Page() {
-  return (
-    <div>
-      <SignUp />
-    </div>
-  );
-}
+import AuthPage from "../../authPage";
+export default AuthPage;
