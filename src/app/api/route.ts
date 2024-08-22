@@ -1,3 +1,4 @@
+// src/app/api/route.ts
 import { NextApiRequest, NextApiResponse } from "next";
 import { db } from "~/server/db";
 import { posts } from "~/server/db/schema";

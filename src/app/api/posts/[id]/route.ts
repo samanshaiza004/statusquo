@@ -1,3 +1,4 @@
+// src/app/api/posts/[id]/route.ts
 import { eq } from "drizzle-orm/sql";
 import { NextApiRequest } from "next";
 import { NextResponse } from "next/server";

@@ -1,6 +1,4 @@
-// Example model schema from the Drizzle docs
-// https://orm.drizzle.team/docs/sql-schema-declaration
-
+// src/server/db/schema.ts
 import { sql } from "drizzle-orm";
 import {
   foreignKey,

@@ -1,3 +1,5 @@
+// src/app/_components/likebutton.tsx
+
 "use client";
 
 import React, { useState, useEffect } from "react";
@@ -37,26 +39,32 @@ const LikeButton: React.FC<LikeButtonProps> = ({
 
   const handleLike = async () => {
     if (loading) return;
+
     setLoading(true);
     try {
-      if (isLiked) {
-        await fetch("/api/like", {
-          method: "DELETE",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ postId: id }),
-        });
-        setLikesCount((prevCount) => prevCount - 1);
-      } else {
-        await fetch("/api/like", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ postId: id }),
-        });
-        setLikesCount((prevCount) => prevCount + 1);
+      // Check if the user is logged in before proceeding
+      if (!userId) {
+        window.location.href = "/auth/sign-in";
+        return;
       }
-      setIsLiked(!isLiked);
-    } catch (error) {
-      console.error("Error updating like:", error);
+
+      const response = await fetch(`/api/like`, {
+        method: isLiked ? "DELETE" : "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ postId: id }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setLikesCount((prevCount) => (isLiked ? prevCount - 1 : prevCount + 1));
+        setIsLiked(!isLiked);
+      } else {
+        throw new Error(data.message || "Something went wrong");
+      }
+    } catch (error: any) {
+      console.error("Error updating like:", error.message);
+      alert(error.message); // Or you can display a user-friendly error message
     } finally {
       setLoading(false);
     }

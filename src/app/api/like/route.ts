@@ -1,3 +1,4 @@
+// src/app/api/like/route.ts
 import { auth } from "@clerk/nextjs/server";
 import { eq, sql } from "drizzle-orm";
 import { NextResponse } from "next/server";
